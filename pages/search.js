@@ -1,24 +1,49 @@
 import { MoonIcon, SearchIcon, SunIcon } from "@chakra-ui/icons";
 import {
-  Center,
   InputGroup,
   Input,
   InputLeftElement,
-  Stack,
   useColorMode,
   IconButton,
   Heading,
-  InputRightElement,
+  Flex,
+  Stack,
+  Grid,
   Button,
+  Center,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { LoadingBox } from "../components/loading";
+import { WorkCard } from "../components/work";
 import NextLink from "next/link";
 
-export default function Home() {
+export async function getServerSideProps(context) {
+  // get http://localhost:8000/search?query_field=Naruto
+  const { query_field } = context.query;
+  if (query_field === undefined) {
+    return {
+      props: {
+        data: {
+          data: [],
+        },
+        query_field: "",
+      },
+    };
+  }
+  // fetch data from an external API endpoint
+  const res = await fetch(
+    `http://localhost:8000/search?query_field=${query_field}&safe_search=1`
+  );
+  // Limit the number of results to 50
+  const data = await res.json();
+  // Pass data to the page via props
+  return { props: { data, query_field } };
+}
+
+export default function SearchResults({ data, query_field }) {
   const { colorMode, toggleColorMode } = useColorMode();
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(query_field);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   // listen for enter key while typing
@@ -41,17 +66,27 @@ export default function Home() {
 
   useEffect(() => {
     setIsLoading(false);
-  }, []);
+  }, [data]);
+
   return (
-    <Center h="100vh" v="100vw">
+    <Flex w="100vw" h="100vh" direction="column">
       {isLoading && <LoadingBox />}
-      <Stack minWidth="50vw" align="center">
+      <Stack
+        direction={{
+          base: "column",
+          md: "row",
+        }}
+        w="100%"
+        align="baseline"
+        p="1em"
+        bgColor="background"
+      >
         <NextLink href="/" passHref>
-          <Heading size="4xl" mb={4}>
+          <Heading size="4xl" mr={4}>
             意味物語
           </Heading>
         </NextLink>
-        <InputGroup>
+        <InputGroup flex={1}>
           <InputLeftElement children={<SearchIcon />} />
           <Input
             type="text"
@@ -80,6 +115,27 @@ export default function Home() {
           />
         </InputGroup>
       </Stack>
-    </Center>
+      <Grid
+        // give a comfortable grid layout to the search results
+        templateColumns="repeat(auto-fill, minmax(250px, 1fr))"
+        gap={6}
+        p="1em"
+        // make grid not overflow
+        overflow="auto"
+      >
+        {
+          // map the data to a list of WorkCard components
+          data.data.map((work) => {
+            return <WorkCard work={work} />;
+          })
+        }
+      </Grid>
+      {/* if data.data is empty, return error message */}
+      {data.data.length === 0 && (
+        <Center>
+          <Heading size="lg">No results found</Heading>
+        </Center>
+      )}
+    </Flex>
   );
 }
