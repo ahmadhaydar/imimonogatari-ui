@@ -16,7 +16,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { LoadingBox } from "../components/loading";
 import { WorkCard } from "../components/work";
-import NextLink from "next/link";
+import Link from "next/link";
 
 export async function getServerSideProps(context) {
   // get http://localhost:8000/search?query_field=Naruto
@@ -81,11 +81,11 @@ export default function SearchResults({ data, query_field }) {
         p="1em"
         bgColor="background"
       >
-        <NextLink href="/" passHref>
+        <Link href="/" passHref>
           <Heading size="4xl" mr={4}>
             意味物語
           </Heading>
-        </NextLink>
+        </Link>
         <InputGroup flex={1}>
           <InputLeftElement children={<SearchIcon />} />
           <Input

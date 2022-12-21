@@ -14,7 +14,7 @@ import {
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { LoadingBox } from "../components/loading";
-import NextLink from "next/link";
+import Link from "next/link";
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -46,11 +46,11 @@ export default function Home() {
     <Center h="100vh" v="100vw">
       {isLoading && <LoadingBox />}
       <Stack minWidth="50vw" align="center">
-        <NextLink href="/" passHref>
+        <Link href="/" passHref>
           <Heading size="4xl" mb={4}>
             意味物語
           </Heading>
-        </NextLink>
+        </Link>
         <InputGroup>
           <InputLeftElement children={<SearchIcon />} />
           <Input
