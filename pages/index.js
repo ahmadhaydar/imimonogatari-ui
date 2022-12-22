@@ -3,12 +3,12 @@ import {
   Center,
   InputGroup,
   Input,
-  InputLeftElement,
+  InputLeftAddon,
   Stack,
+  HStack,
   useColorMode,
   IconButton,
   Heading,
-  InputRightElement,
   Button,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
@@ -19,24 +19,44 @@ import Link from "next/link";
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
   const [value, setValue] = useState("");
+  const [valueTitle, setValueTitle] = useState("");
+  const [valueGenre, setValueGenre] = useState("");
+  const [valueAuthor, setValueAuthor] = useState("");
+  const [valuePublisher, setValuePublisher] = useState("");
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [googleMode, setGoogleMode] = useState(true)
   // listen for enter key while typing
   const handleEnter = (event) => {
-    if (event.key === "Enter" && value !== "" && !isLoading) {
+    if (event.key === "Enter") {
       handleSubmit();
     }
   };
 
   const handleSubmit = () => {
-    if (value !== "" && !isLoading) {
+    if (googleMode && value !== "" && !isLoading) {
       setIsLoading(true);
       router.push(`/search?query_field=${value}`);
+    }
+    if (!googleMode && (valueTitle !== "" || valueGenre !== "" ||valueAuthor !== "" || valuePublisher !== "") && !isLoading) {
+      router.push(`/filter?title=${valueTitle}&genre=${valueGenre}&author=${valueAuthor}&publisher=${valuePublisher}&offset=0&sfw=1`);
     }
   };
 
   const handleChange = (event) => {
     setValue(event.target.value);
+  };
+  const handleChangeTitle = (event) => {
+    setValueTitle(event.target.value);
+  };
+  const handleChangeGenre = (event) => {
+    setValueGenre(event.target.value);
+  };
+  const handleChangeAuthor = (event) => {
+    setValueAuthor(event.target.value);
+  };
+  const handleChangePublisher = (event) => {
+    setValuePublisher(event.target.value);
   };
 
   useEffect(() => {
@@ -52,7 +72,7 @@ export default function Home() {
           </Heading>
         </Link>
         <InputGroup>
-          <InputLeftElement children={<SearchIcon />} />
+          {googleMode ? (<>
           <Input
             type="text"
             placeholder="Search"
@@ -60,9 +80,9 @@ export default function Home() {
             onChange={handleChange}
             onKeyPress={handleEnter}
             isDisabled={isLoading}
-          />
+          /> 
           <Button
-            leftIcon={<SearchIcon />}
+            rightIcon={<SearchIcon />}
             colorScheme="yellow"
             ml={2}
             onClick={handleSubmit}
@@ -71,6 +91,88 @@ export default function Home() {
           >
             Search
           </Button>
+          <Button
+            colorScheme="yellow"
+            ml={2}
+            onClick={() => setGoogleMode(!googleMode)}
+            isLoading={isLoading}
+            isDisabled={isLoading}
+          >
+            Filter?
+          </Button>
+          <IconButton
+            ml={2}
+            colorScheme="yellow"
+            aria-label="Search database"
+            icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+            onClick={toggleColorMode}
+          /></>): 
+          ( <>
+          <Stack minWidth="50vw" align="center" spacing={4}>
+          <InputGroup>
+            <InputLeftAddon children='Title:' w="105px"/>
+            <Input
+            type="text"
+            placeholder="Ex: horimiya"
+            value={valueTitle}
+            onChange={handleChangeTitle}
+            onKeyPress={handleEnter}
+            isDisabled={isLoading}
+          />
+          </InputGroup>
+          <InputGroup>
+          <InputLeftAddon children='Genre:' w="105px"/>
+          <Input
+            type="text"
+            placeholder="Ex: comedy,romance,..."
+            value={valueGenre}
+            onChange={handleChangeGenre}
+            onKeyPress={handleEnter}
+            isDisabled={isLoading}
+          />
+          </InputGroup>
+          <InputGroup>
+          <InputLeftAddon children='Author:' w="105px"/>
+          <Input
+            type="text"
+            placeholder="Ex: hagiwara,hero,..."
+            value={valueAuthor}
+            onChange={handleChangeAuthor}
+            onKeyPress={handleEnter}
+            isDisabled={isLoading}
+          />
+          </InputGroup>
+          <InputGroup>
+          <InputLeftAddon children='Publisher:' w="105px"/>
+          <Input
+            type="text"
+            placeholder="Ex: shounen jump"
+            value={valuePublisher}
+            onChange={handleChangePublisher}
+            onKeyPress={handleEnter}
+            isDisabled={isLoading}
+          />
+          </InputGroup>
+          <HStack>
+          <Button
+            rightIcon={<SearchIcon />}
+            colorScheme="yellow"
+            ml={2}
+            onClick={handleSubmit}
+            isLoading={isLoading}
+            isDisabled={isLoading || (!valueTitle && !valueGenre && !valueAuthor && !valuePublisher)}
+          >
+            Search
+          </Button>
+          <Button
+            colorScheme="yellow"
+            ml={2}
+            onClick={() => setGoogleMode(!googleMode)}
+            isLoading={isLoading}
+            isDisabled={isLoading}
+          >
+            Default?
+          </Button>
           <IconButton
             ml={2}
             colorScheme="yellow"
@@ -78,6 +180,8 @@ export default function Home() {
             icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
             onClick={toggleColorMode}
           />
+          </HStack>
+          </Stack></>)}
         </InputGroup>
       </Stack>
     </Center>

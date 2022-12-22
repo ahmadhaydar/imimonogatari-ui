@@ -20,30 +20,52 @@ import Link from "next/link";
 
 export async function getServerSideProps(context) {
   // get http://localhost:8000/search?query_field=Naruto
-  const { query_field } = context.query;
-  if (query_field === undefined) {
+  const { title, genre, author, publisher, offset, sfw } = context.query;
+  if (title === undefined || genre === undefined || author === undefined ||
+      publisher === undefined || offset === undefined || sfw === undefined) {
     return {
       props: {
         data: {
           data: [],
         },
-        query_field: "",
+        message: "There's an undefined field in the query.",
       },
     };
   }
   // fetch data from an external API endpoint
+  let url = `http://127.0.0.1:8000/search/filter?`;
+  if (title) {
+    url = url + `search_title=${title[i]}&`
+  }
+  if (publisher) {
+    url = url + `search_publisher=${publisher[i]}&`
+  }
+  const genres = genre.split(',')
+  if (genre) {
+    for (let i = 0; i < genres.length; i++) {
+        url = url + `search_genre=${genres[i]}&`
+      }
+  }
+  const authors = author.split(',')
+  if (author) {
+    for (let i = 0; i < authors.length; i++) {
+        url = url + `search_author=${authors[i]}&`
+      }
+  }
+  url = url + `offset=${offset}&safe_search=${sfw}`
+
   const res = await fetch(
-    `http://127.0.0.1:8000/search?query_field=${query_field}&safe_search=1`
+    url
   );
   // Limit the number of results to 50
   const data = await res.json();
   // Pass data to the page via props
-  return { props: { data, query_field } };
+  return { props: { data } };
 }
 
-export default function SearchResults({ data, query_field }) {
+export default function SearchResults({ data }) {
   const { colorMode, toggleColorMode } = useColorMode();
-  const [value, setValue] = useState(query_field);
+  const [value, setValue] = useState("");
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   // listen for enter key while typing
