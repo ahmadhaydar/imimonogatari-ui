@@ -35,10 +35,10 @@ export async function getServerSideProps(context) {
   // fetch data from an external API endpoint
   let url = `http://127.0.0.1:8000/search/filter?`;
   if (title) {
-    url = url + `search_title=${title[i]}&`
+    url = url + `search_title=${title}&`
   }
   if (publisher) {
-    url = url + `search_publisher=${publisher[i]}&`
+    url = url + `search_publisher=${publisher}&`
   }
   const genres = genre.split(',')
   if (genre) {
