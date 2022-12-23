@@ -80,6 +80,8 @@ export default function SearchResults({ data, query_field }) {
         align="baseline"
         p="1em"
         bgColor="background"
+        borderBottom={colorMode === "light" ? "1px" : "0px"}
+        borderColor="gray.200"
       >
         <Link href="/" passHref>
           <Heading size="4xl" mr={4}>
