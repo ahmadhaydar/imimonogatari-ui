@@ -370,11 +370,12 @@ export default function Details(props) {
                 {" "}
                 Get Data{" "}
               </Button>
-              <Select placeholder="rdf" onChange={handleChange}>
+              <Select placeholder="rdf" onChange={handleChange} width="1xl">
                 {filetypes.map((filetype_) => (
                   <option value={filetype_}>{filetype_}</option>
                 ))}
               </Select>
+              <Spacer />
             </HStack>
           </Stack>
           <TableContainer whiteSpace="normal"
