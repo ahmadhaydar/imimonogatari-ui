@@ -19,6 +19,10 @@ import { WorkCard } from "../components/work";
 import Link from "next/link";
 
 export async function getServerSideProps(context) {
+  context.res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
   // get http://localhost:8000/search?query_field=Naruto
   const { query_field } = context.query;
   if (query_field === undefined) {

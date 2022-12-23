@@ -44,7 +44,9 @@ import {
   DownloadIcon,
   MoonIcon,
   SunIcon,
+  ArrowBackIcon,
 } from "@chakra-ui/icons";
+import { useRouter } from "next/router";
 
 const urlValidator = new RegExp(
   "^(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$",
@@ -238,6 +240,7 @@ const WikidataDetails = ({ data, ...props }) => {
 export default function Details(props) {
   const data = props.data;
   const rdf_types = props.rdf_types;
+  const router = useRouter();
   if (data.error) console.log(data.error);
   const { colorMode, toggleColorMode } = useColorMode();
   // reverse of data.data
@@ -296,9 +299,16 @@ export default function Details(props) {
         <IconButton
           ml={2}
           colorScheme="yellow"
-          aria-label="Search database"
           icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
           onClick={toggleColorMode}
+        />
+        <IconButton
+          ml={2}
+          colorScheme="yellow"
+          icon={<ArrowBackIcon />}
+          onClick={() => {
+            router.back();
+          }}
         />
       </Flex>
       <Flex direction="column" overflow="auto">
@@ -357,8 +367,12 @@ export default function Details(props) {
               </Select>
             </HStack>
           </Stack>
-          <TableContainer whiteSpace="normal">
-            <Table>
+          <TableContainer whiteSpace="normal"
+            border="1px"
+            borderColor={colorMode === "light" ? "gray.200" : "gray.700"}
+            borderRadius="md"
+          >
+            <Table variant="striped">
               <Thead>
                 <Tr>
                   <Th>Property</Th>
