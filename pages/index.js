@@ -97,7 +97,7 @@ export default function Home() {
         </Link>
         <HStack spacing={4} mb={4}>
           <Text>
-            Advanced Search :{" "}
+            Advanced Search
             <Switch
               ml={2}
               onChange={() => setGoogleMode(!googleMode)}
@@ -106,7 +106,7 @@ export default function Home() {
             />
           </Text>
           <Text>
-            Safe Search :{" "}
+            Safe Search
             <Switch
               ml={2}
               onChange={handleSfwSwitch}
