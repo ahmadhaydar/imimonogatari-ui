@@ -18,10 +18,10 @@ export const LoadingBox = () => {
     >
       <Box bg="black" w="100%" h="10vh"/>
       <Center flex={1}>
-      <Stack align="center" spacing={3} mb={4}>
+      <Stack align="center" spacing={3} mb={4} flex={1}>
         <HStack>
           <Stack align="center">
-            <Heading size="xl" color="white">
+            <Heading size="2xl" color="white">
               読
             </Heading>
             <Heading size="sm" color="white">
@@ -29,7 +29,7 @@ export const LoadingBox = () => {
             </Heading>
           </Stack>
           <Stack align="center">
-            <Heading size="xl" color="white">
+            <Heading size="2xl" color="white">
             み
             </Heading>
             <Heading size="sm" color="white">
@@ -37,7 +37,7 @@ export const LoadingBox = () => {
             </Heading>
           </Stack>
           <Stack align="center">
-            <Heading size="xl" color="white">
+            <Heading size="2xl" color="white">
             込
             </Heading>
             <Heading size="sm" color="white">
@@ -45,7 +45,7 @@ export const LoadingBox = () => {
             </Heading>
           </Stack>
           <Stack align="center">
-            <Heading size="xl" color="white">
+            <Heading size="2xl" color="white">
             み
             </Heading>
             <Heading size="sm" color="white">
@@ -53,7 +53,7 @@ export const LoadingBox = () => {
             </Heading>
           </Stack>
           <Stack align="center">
-            <Heading size="xl" color="white">
+            <Heading size="2xl" color="white">
             中
             </Heading>
             <Heading size="sm" color="white">
@@ -61,7 +61,7 @@ export const LoadingBox = () => {
             </Heading>
           </Stack>
         </HStack>
-        <Spinner size="xl" color="white" thickness="5px" />
+        <Spinner size="8xl" color="white" thickness="5px" />
       </Stack>
       </Center>
       <Box bg="black" w="100%" h="10vh"/>
