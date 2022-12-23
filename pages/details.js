@@ -178,7 +178,7 @@ const WikidataDetails = ({ data, ...props }) => {
                       <ListIcon as={ChevronRightIcon} />
                       <Link href={details.mangadexLink}>
                         Read on MangaDex
-                        <UnlockIcon />
+                        <UnlockIcon ml={1}/>
                       </Link>
                     </ListItem>
                   )}
