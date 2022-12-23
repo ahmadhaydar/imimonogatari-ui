@@ -167,6 +167,7 @@ const WikidataDetails = ({ data, ...props }) => {
 
                   {details.wikipediaLink && (
                     <ListItem>
+                      <ListIcon as={ChevronRightIcon} />
                       <Link href={details.wikipediaLink}>
                         Wikipedia article
                         <ExternalLinkIcon ml={1}/>
@@ -188,7 +189,7 @@ const WikidataDetails = ({ data, ...props }) => {
           </Accordion>
 
           {details.characters.length && (
-            <Accordion defaultIndex={[0]} allowMultiple flex={1}>
+            <Accordion  allowMultiple flex={1}>
               <AccordionItem>
                 <AccordionButton>
                   <Box as="span" flex="1" textAlign="left">
