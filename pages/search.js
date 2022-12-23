@@ -25,6 +25,7 @@ export async function getServerSideProps(context) {
   );
   // get http://localhost:8000/search?query_field=Naruto
   const { query_field } = context.query;
+  const { sfw } = context.query;
   if (query_field === undefined) {
     return {
       props: {
@@ -37,15 +38,15 @@ export async function getServerSideProps(context) {
   }
   // fetch data from an external API endpoint
   const res = await fetch(
-    `http://127.0.0.1:8000/search?query_field=${query_field}&safe_search=1`
+    `http://127.0.0.1:8000/search?query_field=${query_field}&safe_search=${sfw}`
   );
   // Limit the number of results to 50
   const data = await res.json();
   // Pass data to the page via props
-  return { props: { data, query_field } };
+  return { props: { data, query_field, sfw } };
 }
 
-export default function SearchResults({ data, query_field }) {
+export default function SearchResults({ data, query_field, sfw }) {
   const { colorMode, toggleColorMode } = useColorMode();
   const [value, setValue] = useState(query_field);
   const router = useRouter();
@@ -61,6 +62,7 @@ export default function SearchResults({ data, query_field }) {
     if (value !== "" && !isLoading) {
       setIsLoading(true);
       router.push(`/search?query_field=${value}`);
+      router.push(`/search?query_field=${value}&sfw=${sfw ? "1" : "0"}`);
     }
   };
 
@@ -74,7 +76,7 @@ export default function SearchResults({ data, query_field }) {
 
   return (
     <Flex w="100vw" h="100vh" direction="column">
-      {isLoading && <LoadingBox />}
+      {isLoading && <LoadingBox sfw={sfw}/>}
       <Stack
         direction={{
           base: "column",

@@ -28,6 +28,7 @@ export default function Home() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [googleMode, setGoogleMode] = useState(true);
+  const [sfw, setSfw] = useState(true);
   // listen for enter key while typing
   const handleEnter = (event) => {
     if (event.key === "Enter") {
@@ -38,7 +39,7 @@ export default function Home() {
   const handleSubmit = () => {
     if (googleMode && value !== "" && !isLoading) {
       setIsLoading(true);
-      router.push(`/search?query_field=${value}`);
+      router.push(`/search?query_field=${value}&sfw=${sfw ? "1" : "0"}`);
     }
     if (
       !googleMode &&
@@ -50,7 +51,7 @@ export default function Home() {
     ) {
       setIsLoading(true);
       router.push(
-        `/filter?title=${valueTitle}&genre=${valueGenre}&author=${valueAuthor}&publisher=${valuePublisher}&offset=0&sfw=1`
+        `/filter?title=${valueTitle}&genre=${valueGenre}&author=${valueAuthor}&publisher=${valuePublisher}&offset=0&sfw=${sfw ? "1" : "0"}`
       );
     }
   };
@@ -71,12 +72,23 @@ export default function Home() {
     setValuePublisher(event.target.value);
   };
 
+  const handleSfwSwitch = () => {
+    setSfw(!sfw);
+    localStorage.setItem("sfw", sfw ? "1" : "0");
+  };
+
   useEffect(() => {
     setIsLoading(false);
+    // check if local storage has a value for sfw
+    if (localStorage.getItem("sfw") === null) {
+      localStorage.setItem("sfw", "1");
+    } else {
+      setSfw(localStorage.getItem("sfw") === "0" ? true : false);
+    }
   }, []);
   return (
     <Center h="100vh" v="100vw">
-      {isLoading && <LoadingBox />}
+      {isLoading && <LoadingBox sfw={sfw}/>}
       <Stack minWidth="80vw" align="center">
         <Link href="/" passHref>
           <Heading size="4xl" mb={4}>
@@ -91,6 +103,15 @@ export default function Home() {
               onChange={() => setGoogleMode(!googleMode)}
               colorScheme="yellow"
               isChecked={!googleMode}
+            />
+          </Text>
+          <Text>
+            Safe Search :{" "}
+            <Switch
+              ml={2}
+              onChange={handleSfwSwitch}
+              colorScheme="yellow"
+              isChecked={sfw}
             />
           </Text>
         </HStack>
