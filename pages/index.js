@@ -10,6 +10,8 @@ import {
   IconButton,
   Heading,
   Button,
+  Switch,
+  Text,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -80,6 +82,17 @@ export default function Home() {
             意味物語
           </Heading>
         </Link>
+        <HStack spacing={4} mb={4}>
+          <Text>
+            Advanced Search :{" "}
+            <Switch
+              ml={2}
+              onChange={() => setGoogleMode(!googleMode)}
+              colorScheme="yellow"
+              isChecked={!googleMode}
+            />
+          </Text>
+        </HStack>
         <Stack
           direction={{
             base: "column",
@@ -109,15 +122,8 @@ export default function Home() {
                 >
                   Search
                 </Button>
-                <Button
-                  colorScheme="yellow"
-                  onClick={() => setGoogleMode(!googleMode)}
-                  isLoading={isLoading}
-                  isDisabled={isLoading}
-                >
-                  Filter?
-                </Button>
                 <IconButton
+                variant="ghost"
                   colorScheme="yellow"
                   aria-label="Search database"
                   icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
@@ -189,17 +195,9 @@ export default function Home() {
                   >
                     Search
                   </Button>
-                  <Button
-                    colorScheme="yellow"
-                    ml={2}
-                    onClick={() => setGoogleMode(!googleMode)}
-                    isLoading={isLoading}
-                    isDisabled={isLoading}
-                  >
-                    Default?
-                  </Button>
                   <IconButton
                     ml={2}
+                    variant="ghost"
                     colorScheme="yellow"
                     aria-label="Search database"
                     icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}

@@ -132,6 +132,7 @@ export default function SearchResults({ data }) {
           </Button>
           <IconButton
             ml={2}
+            variant="ghost"
             colorScheme="yellow"
             aria-label="Search database"
             icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}

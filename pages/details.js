@@ -306,6 +306,7 @@ export default function Details(props) {
         <Spacer />
         <IconButton
           ml={2}
+          variant="ghost"
           colorScheme="yellow"
           icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
           onClick={toggleColorMode}
