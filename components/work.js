@@ -10,13 +10,18 @@
 //   }
 
 import { Box, Flex, Heading, Spacer, Text } from "@chakra-ui/react";
-import Link from 'next/link';
+import Link from "next/link";
 
-export const WorkCard = ({ work }) => {
+export const WorkCard = ({ work, setLoading }) => {
   // a card with thumbnail as backkground, when hovered, it shows the label genres and authors while dimming the background image
   // use only chakra UI components
   return (
-    <Link href={`/details?uri_field=${work.s}`}>
+    <Link
+      href={`/details?uri_field=${work.s}`}
+      onClick={() => {
+        setLoading(true);
+      }}
+    >
       <Box
         h="265px"
         backgroundImage={`url(${work.thumbnail})`}

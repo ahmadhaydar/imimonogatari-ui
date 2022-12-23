@@ -132,7 +132,7 @@ export default function SearchResults({ data, query_field }) {
         {
           // map the data to a list of WorkCard components
           data.data.map((work) => {
-            return <WorkCard work={work} />;
+            return <WorkCard work={work} setLoading={setIsLoading} />;
           })
         }
       </Grid>

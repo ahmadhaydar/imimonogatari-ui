@@ -47,6 +47,7 @@ import {
   ArrowBackIcon,
 } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
+import { LoadingBox } from "../components/loading";
 
 const urlValidator = new RegExp(
   "^(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$",
@@ -159,7 +160,7 @@ const WikidataDetails = ({ data, ...props }) => {
                       <ListIcon as={ChevronRightIcon} />
                       <Link href={details.wikidataURI}>
                         Wikidata {toTurtlePrefix(details.wikidataURI)}
-                        <ExternalLinkIcon />
+                        <ExternalLinkIcon ml={1}/>
                       </Link>
                     </ListItem>
                   )}
@@ -168,7 +169,7 @@ const WikidataDetails = ({ data, ...props }) => {
                     <ListItem>
                       <Link href={details.wikipediaLink}>
                         Wikipedia article
-                        <ExternalLinkIcon />
+                        <ExternalLinkIcon ml={1}/>
                       </Link>
                     </ListItem>
                   )}
@@ -212,13 +213,13 @@ const WikidataDetails = ({ data, ...props }) => {
                               {wikidataURI && (
                                 <Link href={wikidataURI}>
                                   {toTurtlePrefix(wikidataURI)}
-                                  <ExternalLinkIcon />
+                                  <ExternalLinkIcon ml={1}/>
                                 </Link>
                               )}
                               {malCharURL && (
                                 <Link href={malCharURL}>
                                   {malCharURL}
-                                  <ExternalLinkIcon />
+                                  <ExternalLinkIcon ml={1}/>
                                 </Link>
                               )}
                             </VStack>
@@ -283,6 +284,11 @@ export default function Details(props) {
   const currentData = allData.filter(
     (curr) => !generalInfoProperties.includes(curr.property)
   );
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [data]);
+
   return (
     <Flex w="100vw" h="100vh" direction="column">
       {isLoading && <LoadingBox />}
@@ -395,12 +401,12 @@ export default function Details(props) {
                             )}`}
                           >
                             {toTurtlePrefix(item.value)}
-                            <ExternalLinkIcon />
+                            <ExternalLinkIcon ml={1}/>
                           </Link>
                         ) : checkIfGenericLink(item.value) ? (
                           <Link href={item.value}>
                             {toTurtlePrefix(item.value)}
-                            <ExternalLinkIcon />
+                            <ExternalLinkIcon ml={1}/>
                           </Link>
                         ) : (
                           toTurtlePrefix(item.value)
