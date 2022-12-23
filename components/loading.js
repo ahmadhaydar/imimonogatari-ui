@@ -11,7 +11,7 @@ export const LoadingBox = () => {
       top="0"
       left="0"
       zIndex="100"
-      bg="yellow.300"
+      bg="yellow.400"
       align="center"
       justify="center"
     >
