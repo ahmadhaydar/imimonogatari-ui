@@ -48,6 +48,7 @@ export default function Home() {
         valuePublisher !== "") &&
       !isLoading
     ) {
+      setIsLoading(true);
       router.push(
         `/filter?title=${valueTitle}&genre=${valueGenre}&author=${valueAuthor}&publisher=${valuePublisher}&offset=0&sfw=1`
       );

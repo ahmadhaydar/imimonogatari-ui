@@ -1,12 +1,12 @@
-import { Flex, Heading, Stack, Spinner, HStack, ChakraProvider } from "@chakra-ui/react";
-
+import { Flex, Heading, Stack, Spinner, HStack, ChakraProvider, Spacer, Box, Center } from "@chakra-ui/react";
+// set chakraUI font to seriff
 export const LoadingBox = () => {
   // a box that shows a loading animation
   // use only chakra UI components
   return (
     <Flex
-      w="100%"
-      h="100%"
+      w="100vw"
+      h="100vh"
       position="fixed"
       top="0"
       left="0"
@@ -14,8 +14,11 @@ export const LoadingBox = () => {
       bg="yellow.400"
       align="center"
       justify="center"
+      direction="column"
     >
-      <Stack align="center" spacing={3}>
+      <Box bg="black" w="100%" h="10vh"/>
+      <Center flex={1}>
+      <Stack align="center" spacing={3} mb={4}>
         <HStack>
           <Stack align="center">
             <Heading size="xl" color="white">
@@ -58,11 +61,10 @@ export const LoadingBox = () => {
             </Heading>
           </Stack>
         </HStack>
-        <Heading size="md" color="white">
-          Loading...
-        </Heading>
         <Spinner size="xl" color="white" thickness="5px" />
       </Stack>
+      </Center>
+      <Box bg="black" w="100%" h="10vh"/>
     </Flex>
   );
 };
