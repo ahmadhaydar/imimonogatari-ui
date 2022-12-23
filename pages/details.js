@@ -242,6 +242,7 @@ export default function Details(props) {
   const rdf_types = props.rdf_types;
   const router = useRouter();
   if (data.error) console.log(data.error);
+  const [isLoading, setIsLoading] = useState(false);
   const { colorMode, toggleColorMode } = useColorMode();
   // reverse of data.data
   const allData = data.data?.reverse() ?? [];
@@ -284,6 +285,7 @@ export default function Details(props) {
   );
   return (
     <Flex w="100vw" h="100vh" direction="column">
+      {isLoading && <LoadingBox />}
       <Flex
         w="100%"
         align="center"
@@ -307,6 +309,7 @@ export default function Details(props) {
           colorScheme="yellow"
           icon={<ArrowBackIcon />}
           onClick={() => {
+            setIsLoading(true);
             router.back();
           }}
         />
